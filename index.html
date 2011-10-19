@@ -1,0 +1,107 @@
+<!doctype html5>
+<html>
+    <head>
+        <title>#occupyrealtime</title>
+        <style type="text/css">
+        body {
+            font-family: sans-serif;
+            color: #111;
+            padding: 50px;
+            font-size: 16px;
+        }
+        #content {
+            width: 1100px;
+            margin: 0 auto;
+        }
+        #header h1 {
+            width: 400px;
+        }
+        #message {
+            color: gray;
+            font-size: 12px;
+        }
+        #images img {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        #footer {
+            margin-top: 20px;
+            color: gray;
+            font-size: 12px;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <div id="header">
+                <h1>#occupyrealtime</h1>
+                <p>
+                    This is a real-time feed of Flickr photos tagged with <a href="http://www.flickr.com/photos/tags/occupywallstreet/">occupywallstreet</a> or <a href="http://www.flickr.com/photos/tags/ows/">ows</a>.
+                </p>
+            </div>
+            <div id="images"></div>
+            <div id="message">The real-time photos will be here in real short-time. Give it a second or two.</div>
+            <div id="footer">Built by <a href="http://twitter.com/nolancaudill">Nolan Caudill</a> powered by the <a href="http://www.flickr.com/">Flickr</a> cloud. Thanks, cloud.</div>
+        </div>
+        <script src="http://occupyrealtime.com:1400/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-87510-11']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+        <script>
+            var img_box = document.getElementById('images');
+            var seen = {};
+            var socket = io.connect("http://occupyrealtime.com:1400");
+            var buffer = [];
+
+            function enqueue(data) {
+                buffer.unshift(data);
+            }
+
+            function appendImage(data) {
+                var link = document.createElement('a');
+                link.href = data.link;
+                link.target = "_blank";
+
+                var image = new Image();
+                image.src = data.url.replace(/_.\.jpg$/, '_m.jpg');
+
+                // How many images are already in there?
+                var images = img_box.childNodes;
+                if (images.length > 0) {
+                    img_box.insertBefore(link, images[0]);
+                } else {
+                    document.getElementById('message').style.display = "none";
+                    img_box.appendChild(link);    
+                }
+
+                link.appendChild(image);
+            }
+
+            socket.on('publish', function(data) {
+                if (seen[data.url]) {
+                    return;
+                }
+
+                seen[data.url] = true;
+                enqueue(data);
+            });
+
+            setInterval(function() {
+                if (buffer.length > 0) {
+                    appendImage(buffer.pop());
+                } 
+            }, 5000);
+
+        </script>
+    </body>
+</html>
