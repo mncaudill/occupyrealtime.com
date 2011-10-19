@@ -55,9 +55,12 @@
             }
 
             function appendImage(data) {
+                var imgTitle = data.raw.title || 'Untitled';
+
                 var link = document.createElement('a');
                 link.href = data.link;
                 link.target = "_blank";
+                link.title = imgTitle + ' by ' + data.raw.author.name + ', on Flickr';
 
                 var image = new Image();
                 image.src = data.url.replace(/_.\.jpg$/, '_m.jpg');
