@@ -2,6 +2,8 @@ var io = require('socket.io').listen(1400)
     , Conduit = require('flickr-conduit').Conduit
 ;
 
+process.on('uncaughtException', function(){});
+
 var globalEvent = 'occupy';
 
 var conduit = new Conduit();
