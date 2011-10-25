@@ -19,19 +19,23 @@ The reason for the buffer is that I want someone on arrival to the page be able 
 
 ## Installation
 
-First you'll need a couple of node modules, all available in the npm registry.
+After cloning this repository, just run:
 
-`npm install flickr-conduit`
+`npm install`
 
-`npm install socket.io`
+to pull in the requiring dependencies. 
 
-Then start the actual occupy app:
+Then to start the actual occupy app:
 
-`node occupy.js`
+`npm start`
 
 You'll need to use Flickr's API (specifically flickr.push.subscribe) to set up the subscription for Flickr to start streaming updates to your server on the port that you specified for flickr-conduit in the occupy.js app.
 
 The index.html is hard-coded to still point to occupyrealtime.com (my server), so this page will work since my stuff is still running, but if you want to point it to your own server you'll need to update the JS.
+
+## Thanks
+
+Thanks to [Luiz Lopes](https://github.com/theprivileges/) for his patch to add the npm json file.
 
 ## License
 
