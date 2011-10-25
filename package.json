@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "start": "node occupy.js"
+  },
+  "author": "Nolan Caudill (http://nolancaudill.com)",
+  "name": "occupyrealtime.com",
+  "description": "a simple site that streams, in real-time, all Flickr photos that are tagged with either \"occupywallstreet\" or \"ows\" and displays them.",
+  "version": "0.0.1",
+  "homepage": "http://occupyrealtime.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mncaudill/occupyrealtime.com.git"
+  },
+  "main": "occupy",
+  "engines": {
+    "node": "~0.4.11"
+  },
+  "dependencies": {
+    "flickr-conduit": "~0.1.4",
+    "socket.io": "~0.8.5"
+  },
+  "devDependencies": {}
+}
